@@ -1,16 +1,17 @@
+
+
 const request = async () => {
   const response = await fetch('data.json');
-  if(response.status === 200){
+  if (response.status === 200) {
     const data = await response.json();
     return data
-  }
-  else{
+  } else {
     console.log("error");
   }
 }
 
-function getBook(book){
-    return `    
+function getBook(book) {
+  return `    
     <div class="my-book">
         <div class="cover">
             <h3 class="book-title">${book.title}</h3>
@@ -21,15 +22,38 @@ function getBook(book){
     </div>`
 }
 
-request().then(books =>{
-    document.body.innerHTML = `
+function displayAllBooks(books) {
+  return books.map(book => getBook(book)).join('')
+}
+
+request().then(books => {
+
+  document.body.innerHTML = `
     <header> 
         <h1 class="page-title">My Bookshelf</h1>
         <h2 class="info">Congratulations! <br>You've got ${books.length} books in collection now!</h2>
         <input id="search-bar" type="text" placeholder="search title or author">
     </header>
     <div class="my-bookshelf">
-        ${books.map(book => getBook(book)).join('')}
+        ${displayAllBooks(books)}
     </div>`
+
+    const inputEl = document.getElementById("search-bar");
+
+    inputEl.addEventListener("keyup", () => {
+      let input = inputEl.value.toLowerCase();
+      const booksEl = document.getElementsByClassName("my-book"); 
+      const bookTitles = document.getElementsByClassName("book-title");
+      const bookAuthors = document.getElementsByClassName("book-author");
+      
+      for (let i = 0; i < booksEl.length; i+=1) {
+        (bookTitles[i].textContent.toLowerCase().includes(input)||
+        bookAuthors[i].textContent.toLowerCase().includes(input)) ?
+        booksEl[i].style.display = "" : booksEl[i].style.display = "none";
+      }
+    })
+
 })
 
+
+  
