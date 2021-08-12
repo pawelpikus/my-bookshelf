@@ -1,6 +1,4 @@
-
-
-const request = async () => {
+const getBooks = async () => {
   const response = await fetch('data.json');
   if (response.status === 200) {
     const data = await response.json();
@@ -26,34 +24,35 @@ function displayAllBooks(books) {
   return books.map(book => getBook(book)).join('')
 }
 
-request().then(books => {
-
+function renderPage(books) {
   document.body.innerHTML = `
     <header> 
         <h1 class="page-title">My Bookshelf</h1>
-        <h2 class="info">Congratulations! <br>You've got ${books.length} books in collection now!</h2>
+        <h2 class="info"><span class="highlight">${books.length}</span> books in collection</h2>
         <input id="search-bar" type="text" placeholder="search title or author">
     </header>
     <div class="my-bookshelf">
         ${displayAllBooks(books)}
     </div>`
+}
 
-    const inputEl = document.getElementById("search-bar");
+function searchBooks(){
+  const inputEl = document.getElementById("search-bar");
+  inputEl.addEventListener("keyup", () => {
+    let input = inputEl.value.toLowerCase();
+    const booksEl = document.getElementsByClassName("my-book");
+    const bookTitles = document.getElementsByClassName("book-title");
+    const bookAuthors = document.getElementsByClassName("book-author");
 
-    inputEl.addEventListener("keyup", () => {
-      let input = inputEl.value.toLowerCase();
-      const booksEl = document.getElementsByClassName("my-book"); 
-      const bookTitles = document.getElementsByClassName("book-title");
-      const bookAuthors = document.getElementsByClassName("book-author");
-      
-      for (let i = 0; i < booksEl.length; i+=1) {
-        (bookTitles[i].textContent.toLowerCase().includes(input)||
+    for (let i = 0; i < booksEl.length; i += 1) {
+      (bookTitles[i].textContent.toLowerCase().includes(input) ||
         bookAuthors[i].textContent.toLowerCase().includes(input)) ?
-        booksEl[i].style.display = "" : booksEl[i].style.display = "none";
-      }
-    })
+      booksEl[i].style.display = "": booksEl[i].style.display = "none";
+    }
+  })
+}
 
+getBooks().then(books => {
+  renderPage(books);
+  searchBooks();
 })
-
-
-  

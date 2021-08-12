@@ -34,14 +34,15 @@ header{
 .page-title{
     font-family: 'Shadows Into Light', cursive; 
     font-size: 8rem;
-    color: var(--clr-text-primary)
+    color: var(--clr-text-primary);
 }
 
 .info{
-    margin-bottom: 2em;
+    margin: 1em 0;
     font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     color: var(--clr-text-secondary);
-    text-align: center;
+    text-align: left;
     
 }
 
@@ -101,11 +102,12 @@ header{
     width: 600px;
     padding: .5em;
     font-family: inherit;
-    color: var(--clr-text-secondary);
+    color: var(--clr-accent);
     font-size: 1.2rem;
     border: none;
     border-radius: 10px;
-    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    box-shadow:0 0 1em .3em rgba(0,0,0,0.08),
+                0 0 .5em .1em rgba(0,0,0,0.04); 
 
 }
 
@@ -114,3 +116,19 @@ header{
     outline-offset: .3em;
     
 }
+
+.highlight{
+    font-size: 3rem;
+    color: var(--clr-accent);
+    font-weight: 700;
+}
+
+::placeholder{
+    color: var(--clr-text-secondary);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--clr-text-secondary);
+  }
